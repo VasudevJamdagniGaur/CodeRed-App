@@ -17,7 +17,7 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
     if (!email.trim() || !password) {
       Alert.alert('Error', 'Please enter email and password');
       return;
@@ -26,7 +26,7 @@ export default function LoginScreen() {
     try {
       await login(email.trim(), password);
     } catch (e) {
-      Alert.alert('Login failed', 'Please check credentials.');
+      Alert.alert('Sign up failed', 'Please try again.');
     } finally {
       setLoading(false);
     }
@@ -37,7 +37,7 @@ export default function LoginScreen() {
   return (
     <Container style={styles.container} {...containerProps}>
       <Text style={styles.title}>BloodConnect</Text>
-      <Text style={styles.subtitle}>Sign in to continue</Text>
+      <Text style={styles.subtitle}>Sign up to continue</Text>
 
       <TextInput
         style={styles.input}
@@ -57,16 +57,16 @@ export default function LoginScreen() {
         secureTextEntry={true}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={Boolean(loading)}>
-        <Text style={styles.buttonText}>{loading ? 'Signing in...' : 'Login'}</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSignUp} disabled={Boolean(loading)}>
+        <Text style={styles.buttonText}>{loading ? 'Signing up...' : 'Sign up'}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.forgot} disabled={false} activeOpacity={1}>
-        <Text style={styles.forgotText}>Forgot password?</Text>
+        <Text style={styles.forgotText}>Already have an account? Sign in</Text>
       </TouchableOpacity>
 
       <Text style={styles.hint}>
-        Demo: use email like admin@bc.com, manager@bc.com, hr@bc.com, outreach@bc.com, volunteer@bc.com
+        Demo: sign up with email like admin@bc.com, manager@bc.com, hr@bc.com, outreach@bc.com, volunteer@bc.com
       </Text>
     </Container>
   );
