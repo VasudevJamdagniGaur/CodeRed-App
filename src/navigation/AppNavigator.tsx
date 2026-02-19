@@ -1,5 +1,5 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../context/AuthContext';
@@ -49,8 +49,27 @@ import ReimbursementStatusScreen from '../screens/reimbursement/ReimbursementSta
 
 const Stack = createNativeStackNavigator();
 
+// Explicit primitive booleans for native stack to avoid String/Boolean cast on Android
+const mainScreenOptions = {
+  headerShown: false,
+  gestureEnabled: true,
+  fullScreenGestureEnabled: false,
+  headerStyle: { backgroundColor: '#0a0a0a' },
+  headerTintColor: '#fff',
+  contentStyle: { backgroundColor: '#0a0a0a' },
+};
+
 export default function AppNavigator() {
   const { user, token, isLoading } = useAuth();
+  const [readyToShowMain, setReadyToShowMain] = useState(false);
+
+  useEffect(() => {
+    if (token && user && !readyToShowMain) {
+      const t = setTimeout(() => setReadyToShowMain(true), 100);
+      return () => clearTimeout(t);
+    }
+    if (!token || !user) setReadyToShowMain(false);
+  }, [token, user, readyToShowMain]);
 
   if (isLoading) {
     return <SplashScreen />;
@@ -65,15 +84,18 @@ export default function AppNavigator() {
     );
   }
 
+  // Delay mounting native stack to avoid Android String/Boolean cast on first frame
+  if (!readyToShowMain) {
+    return (
+      <View style={{ flex: 1, backgroundColor: '#0a0a0a', justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: '#fff' }}>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer theme={navTheme}>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: '#0a0a0a' },
-          headerTintColor: '#fff',
-          contentStyle: { backgroundColor: '#0a0a0a' },
-        }}
-      >
+      <Stack.Navigator screenOptions={mainScreenOptions}>
         <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
 
         <Stack.Screen name="CampList" component={CampListScreen} options={{ title: 'Camps' }} />

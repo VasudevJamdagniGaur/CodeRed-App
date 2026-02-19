@@ -35,6 +35,8 @@ export default function MainTabs() {
         tabBarStyle: { backgroundColor: '#0a0a0a', borderTopColor: '#222' },
         tabBarActiveTintColor: '#C41E3A',
         tabBarInactiveTintColor: '#666',
+        lazy: true,
+        tabBarShowLabel: true,
       }}
     >
       <Tab.Screen
