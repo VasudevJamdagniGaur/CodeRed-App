@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../context/AuthContext';
 
 const navTheme = {
@@ -48,16 +48,14 @@ import SubmitReimbursementScreen from '../screens/reimbursement/SubmitReimbursem
 import ReimbursementStatusScreen from '../screens/reimbursement/ReimbursementStatusScreen';
 import NotificationsScreen from '../screens/notifications/NotificationsScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-// Explicit primitive booleans for native stack to avoid String/Boolean cast on Android
+// JS stack (no native stack views) to avoid String/Boolean cast crash on Android
 const mainScreenOptions = {
   headerShown: false,
-  gestureEnabled: true,
-  fullScreenGestureEnabled: false,
   headerStyle: { backgroundColor: '#0a0a0a' },
   headerTintColor: '#fff',
-  contentStyle: { backgroundColor: '#0a0a0a' },
+  cardStyle: { backgroundColor: '#0a0a0a' },
 };
 
 export default function AppNavigator() {
