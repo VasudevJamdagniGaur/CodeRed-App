@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 
 export default function SplashScreen() {
-  const { token, isLoading } = useAuth();
-
-  useEffect(() => {
-    // Auth check is done in AuthContext; we just show loading until ready
-  }, []);
+  const { isLoading } = useAuth();
 
   if (!isLoading) return null;
 
@@ -17,7 +13,7 @@ export default function SplashScreen() {
       <View style={styles.badge}>
         <Text style={styles.badgeText}>Appathon • TRYST'26</Text>
       </View>
-      <ActivityIndicator size="large" color="#C41E3A" style={styles.loader} />
+      <View style={styles.loader} />
     </View>
   );
 }
@@ -49,5 +45,11 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 48,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: '#C41E3A',
+    borderTopColor: 'transparent',
   },
 });

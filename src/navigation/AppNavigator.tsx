@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../context/AuthContext';
@@ -55,13 +56,12 @@ export default function AppNavigator() {
     return <SplashScreen />;
   }
 
+  // Auth screens without native stack to avoid String/Boolean cast crash on Android
   if (!token || !user) {
     return (
-      <NavigationContainer theme={navTheme}>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={LoginScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <View style={{ flex: 1, backgroundColor: '#0a0a0a' }}>
+        <LoginScreen />
+      </View>
     );
   }
 
