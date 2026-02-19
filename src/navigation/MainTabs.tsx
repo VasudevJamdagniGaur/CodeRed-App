@@ -44,24 +44,39 @@ export default function MainTabs() {
         tabBarStyle: { backgroundColor: '#0a0a0a', borderTopColor: '#222' },
         tabBarActiveTintColor: '#C41E3A',
         tabBarInactiveTintColor: '#666',
+        tabBarShowLabel: false,
         lazy: true,
-        tabBarShowLabel: true,
       }}
     >
       <Tab.Screen
         name="Dashboard"
         component={DashboardComponent}
-        options={{ tabBarLabel: 'Dashboard', title: 'Dashboard' }}
+        options={{
+          title: 'Dashboard',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name={focused ? 'grid' : 'grid-outline'} size={size ?? 24} color={color} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Tasks"
         component={TaskListScreen}
-        options={{ tabBarLabel: 'Tasks', title: 'Tasks' }}
+        options={{
+          title: 'Tasks',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name={focused ? 'checkbox' : 'checkbox-outline'} size={size ?? 24} color={color} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ tabBarLabel: 'Profile', title: 'Profile' }}
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name={focused ? 'person' : 'person-outline'} size={size ?? 24} color={color} />
+          ),
+        }}
       />
     </Tab.Navigator>
   );
