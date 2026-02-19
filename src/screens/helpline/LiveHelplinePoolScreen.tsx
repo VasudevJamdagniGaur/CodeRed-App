@@ -12,6 +12,9 @@ export default function LiveHelplinePoolScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <TouchableOpacity style={styles.backBtn} onPress={() => nav.goBack()} activeOpacity={0.7}>
+        <Text style={styles.backBtnText}>← Back</Text>
+      </TouchableOpacity>
       <Text style={styles.title}>Live helpline pool</Text>
       <Text style={styles.subtitle}>Visibility for volunteers</Text>
       {MOCK.map((h) => (
@@ -32,6 +35,8 @@ export default function LiveHelplinePoolScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0a0a0a' },
   content: { padding: 20, paddingBottom: 40 },
+  backBtn: { alignSelf: 'flex-start', marginBottom: 16 },
+  backBtnText: { color: '#C41E3A', fontSize: 16, fontWeight: '600' },
   title: { fontSize: 22, fontWeight: '700', color: '#fff', marginBottom: 8 },
   subtitle: { fontSize: 14, color: '#888', marginBottom: 20 },
   card: { backgroundColor: '#1a1a1a', borderRadius: 12, padding: 16, marginBottom: 12 },
