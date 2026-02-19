@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
 
@@ -10,7 +11,6 @@ import HRDashboard from '../screens/dashboards/HRDashboard';
 import OutreachDashboard from '../screens/dashboards/OutreachDashboard';
 import VolunteerDashboard from '../screens/dashboards/VolunteerDashboard';
 import TaskListScreen from '../screens/tasks/TaskListScreen';
-import NotificationsScreen from '../screens/notifications/NotificationsScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
@@ -32,6 +32,15 @@ export default function MainTabs() {
       screenOptions={{
         headerStyle: { backgroundColor: '#0a0a0a' },
         headerTintColor: '#fff',
+        headerRight: ({ navigation }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Notifications')}
+            style={styles.headerBell}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="notifications-outline" size={24} color="#fff" />
+          </TouchableOpacity>
+        ),
         tabBarStyle: { backgroundColor: '#0a0a0a', borderTopColor: '#222' },
         tabBarActiveTintColor: '#C41E3A',
         tabBarInactiveTintColor: '#666',
@@ -50,11 +59,6 @@ export default function MainTabs() {
         options={{ tabBarLabel: 'Tasks', title: 'Tasks' }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={NotificationsScreen}
-        options={{ tabBarLabel: 'Notifications', title: 'Notifications' }}
-      />
-      <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{ tabBarLabel: 'Profile', title: 'Profile' }}
@@ -63,4 +67,6 @@ export default function MainTabs() {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  headerBell: { padding: 8, marginRight: 8 },
+});

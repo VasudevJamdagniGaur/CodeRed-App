@@ -46,6 +46,7 @@ import HelplineClosureScreen from '../screens/helpline/HelplineClosureScreen';
 import CreateReimbursementScreen from '../screens/reimbursement/CreateReimbursementScreen';
 import SubmitReimbursementScreen from '../screens/reimbursement/SubmitReimbursementScreen';
 import ReimbursementStatusScreen from '../screens/reimbursement/ReimbursementStatusScreen';
+import NotificationsScreen from '../screens/notifications/NotificationsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -122,6 +123,7 @@ export default function AppNavigator() {
         <Stack.Screen name="CreateReimbursement" component={CreateReimbursementScreen} options={{ title: 'Create Reimbursement' }} />
         <Stack.Screen name="SubmitReimbursement" component={SubmitReimbursementScreen} options={{ title: 'Submit Reimbursement' }} />
         <Stack.Screen name="ReimbursementStatus" component={ReimbursementStatusScreen} options={{ title: 'Reimbursement Status' }} />
+        <Stack.Screen name="Notifications" component={NotificationsScreen} options={{ title: 'Notifications' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
