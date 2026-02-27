@@ -47,6 +47,8 @@ import CreateReimbursementScreen from '../screens/reimbursement/CreateReimbursem
 import SubmitReimbursementScreen from '../screens/reimbursement/SubmitReimbursementScreen';
 import ReimbursementStatusScreen from '../screens/reimbursement/ReimbursementStatusScreen';
 import NotificationsScreen from '../screens/notifications/NotificationsScreen';
+import TaskDetailScreen from '../screens/tasks/TaskDetailScreen';
+import CreateTaskScreen from '../screens/tasks/CreateTaskScreen';
 
 const Stack = createStackNavigator();
 
@@ -122,6 +124,8 @@ export default function AppNavigator() {
         <Stack.Screen name="SubmitReimbursement" component={SubmitReimbursementScreen} options={{ title: 'Submit Reimbursement' }} />
         <Stack.Screen name="ReimbursementStatus" component={ReimbursementStatusScreen} options={{ title: 'Reimbursement Status' }} />
         <Stack.Screen name="Notifications" component={NotificationsScreen} options={{ title: 'Notifications' }} />
+        <Stack.Screen name="TaskDetail" component={TaskDetailScreen} options={{ title: 'Task detail' }} />
+        <Stack.Screen name="CreateTask" component={CreateTaskScreen} options={{ title: 'Add task' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
