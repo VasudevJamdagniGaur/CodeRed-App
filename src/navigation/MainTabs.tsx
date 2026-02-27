@@ -5,11 +5,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
 
-import AdminDashboard from '../screens/dashboards/AdminDashboard';
-import ManagerDashboard from '../screens/dashboards/ManagerDashboard';
-import HRDashboard from '../screens/dashboards/HRDashboard';
-import OutreachDashboard from '../screens/dashboards/OutreachDashboard';
-import VolunteerDashboard from '../screens/dashboards/VolunteerDashboard';
+import AdminDashboard from '../screens/Admin/AdminDashboard';
+import ManagerDashboard from '../screens/Manager/ManagerDashboard';
+import HRDashboard from '../screens/HR/HRDashboard';
+import OutreachDashboard from '../screens/Helpline/HelplineDashboard';
+import VolunteerDashboard from '../screens/Volunteer/VolunteerDashboard';
 import TaskListScreen from '../screens/tasks/TaskListScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 

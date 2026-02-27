@@ -9,7 +9,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, role: UserRole) => Promise<void>;
   logout: () => Promise<void>;
   setUser: (user: User | null) => void;
 }
@@ -56,17 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     else AsyncStorage.removeItem(USER_KEY);
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
-    // Mock: validate and assign role by email prefix for demo
-    const roleMap: Record<string, UserRole> = {
-      admin: 'admin',
-      manager: 'camp_manager',
-      hr: 'hr',
-      outreach: 'outreach',
-      volunteer: 'volunteer',
-    };
-    const prefix = email.split('@')[0].toLowerCase();
-    const role = roleMap[prefix] || 'volunteer';
+  const login = useCallback(async (email: string, password: string, role: UserRole) => {
     const mockToken = `token_${Date.now()}`;
     const mockUser: User = {
       id: '1',
