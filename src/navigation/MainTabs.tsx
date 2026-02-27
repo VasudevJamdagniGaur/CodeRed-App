@@ -35,18 +35,18 @@ export default function MainTabs() {
         headerRight: ({ navigation }) => (
           <View style={styles.headerRightRow}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Profile')}
-              style={styles.headerIconBtn}
-              activeOpacity={0.7}
-            >
-              <Ionicons name="person-circle-outline" size={22} color="#fff" />
-            </TouchableOpacity>
-            <TouchableOpacity
               onPress={() => navigation.navigate('Notifications')}
               style={styles.headerIconBtn}
               activeOpacity={0.7}
             >
               <Ionicons name="notifications-outline" size={22} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Profile')}
+              style={styles.headerIconBtn}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="person-circle-outline" size={22} color="#fff" />
             </TouchableOpacity>
           </View>
         ),
