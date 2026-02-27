@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
@@ -33,13 +33,22 @@ export default function MainTabs() {
         headerStyle: { backgroundColor: '#0a0a0a' },
         headerTintColor: '#fff',
         headerRight: ({ navigation }) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Notifications')}
-            style={styles.headerBell}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="notifications-outline" size={24} color="#fff" />
-          </TouchableOpacity>
+          <View style={styles.headerRightRow}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Profile')}
+              style={styles.headerIconBtn}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="person-circle-outline" size={22} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Notifications')}
+              style={styles.headerIconBtn}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="notifications-outline" size={22} color="#fff" />
+            </TouchableOpacity>
+          </View>
         ),
         tabBarStyle: { backgroundColor: '#0a0a0a', borderTopColor: '#222' },
         tabBarActiveTintColor: '#C41E3A',
@@ -83,5 +92,13 @@ export default function MainTabs() {
 }
 
 const styles = StyleSheet.create({
-  headerBell: { padding: 8, marginRight: 8 },
+  headerRightRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  headerIconBtn: {
+    padding: 6,
+    marginLeft: 4,
+  },
 });
