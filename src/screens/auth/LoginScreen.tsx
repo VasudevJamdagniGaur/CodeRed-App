@@ -9,6 +9,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../../types';
 
@@ -17,6 +18,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { login } = useAuth();
 
   const ROLE_OPTIONS: { id: UserRole; label: string; subtitle: string }[] = [
@@ -26,6 +28,8 @@ export default function LoginScreen() {
     { id: 'outreach', label: 'Helpline Team', subtitle: 'Emergency helpline operations' },
     { id: 'volunteer', label: 'Volunteer', subtitle: 'On-ground execution & follow-up' },
   ];
+
+  const selectedLabel = selectedRole ? ROLE_OPTIONS.find((r) => r.id === selectedRole)?.label : null;
 
   const handleSignUp = async () => {
     if (!email.trim() || !password) {
@@ -72,34 +76,38 @@ export default function LoginScreen() {
       />
 
       <Text style={styles.roleLabel}>Select your role</Text>
-      <View style={styles.rolesRow}>
-        {ROLE_OPTIONS.map((role) => (
-          <TouchableOpacity
-            key={role.id}
-            style={[
-              styles.roleChip,
-              selectedRole === role.id && styles.roleChipActive,
-            ]}
-            activeOpacity={0.8}
-            onPress={() => setSelectedRole(role.id)}
-          >
-            <Text
-              style={[
-                styles.roleChipText,
-                selectedRole === role.id && styles.roleChipTextActive,
-              ]}
+      <TouchableOpacity
+        style={[styles.dropdownTrigger, dropdownOpen && styles.dropdownTriggerOpen]}
+        onPress={() => setDropdownOpen(!dropdownOpen)}
+        activeOpacity={0.8}
+      >
+        <Text style={selectedLabel ? styles.dropdownTriggerText : styles.dropdownPlaceholder}>
+          {selectedLabel ?? 'Choose role...'}
+        </Text>
+        <Ionicons name={dropdownOpen ? 'chevron-up' : 'chevron-down'} size={20} color="#888" />
+      </TouchableOpacity>
+      {dropdownOpen && (
+        <View style={styles.dropdownList}>
+          {ROLE_OPTIONS.map((role) => (
+            <TouchableOpacity
+              key={role.id}
+              style={[styles.dropdownItem, selectedRole === role.id && styles.dropdownItemActive]}
+              onPress={() => {
+                setSelectedRole(role.id);
+                setDropdownOpen(false);
+              }}
+              activeOpacity={0.7}
             >
-              {role.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      {selectedRole && (
+              <Text style={[styles.dropdownItemText, selectedRole === role.id && styles.dropdownItemTextActive]}>
+                {role.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+      {selectedRole && !dropdownOpen && (
         <Text style={styles.roleHint}>
-          {
-            ROLE_OPTIONS.find((r) => r.id === selectedRole)
-              ?.subtitle
-          }
+          {ROLE_OPTIONS.find((r) => r.id === selectedRole)?.subtitle}
         </Text>
       )}
 
@@ -142,29 +150,63 @@ const styles = StyleSheet.create({
     color: '#888',
     marginBottom: 8,
   },
-  rolesRow: {
+  dropdownTrigger: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginHorizontal: -4,
-    marginBottom: 8,
-  },
-  roleChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#1a1a1a',
-    margin: 4,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 0,
+    borderWidth: 1,
+    borderColor: 'transparent',
   },
-  roleChipActive: {
-    backgroundColor: '#C41E3A',
+  dropdownTriggerOpen: {
+    borderColor: '#333',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
-  roleChipText: {
-    color: '#888',
-    fontSize: 12,
-  },
-  roleChipTextActive: {
+  dropdownTriggerText: {
     color: '#fff',
+    fontSize: 16,
+  },
+  dropdownPlaceholder: {
+    color: '#666',
+    fontSize: 16,
+  },
+  dropdownList: {
+    backgroundColor: '#1a1a1a',
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderColor: '#333',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    marginTop: 0,
+    marginBottom: 8,
+    maxHeight: 220,
+  },
+  dropdownItem: {
+    padding: 14,
+    paddingLeft: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#222',
+  },
+  dropdownItemActive: {
+    backgroundColor: '#252525',
+  },
+  dropdownItemText: {
+    color: '#fff',
+    fontSize: 15,
+  },
+  dropdownItemTextActive: {
+    color: '#C41E3A',
     fontWeight: '600',
+  },
+  roleHint: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 6,
+    marginBottom: 8,
   },
   input: {
     backgroundColor: '#1a1a1a',
