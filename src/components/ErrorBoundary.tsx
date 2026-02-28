@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 
 interface Props {
   children: ReactNode;
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
+    ...(Platform.OS === 'web' ? { minHeight: '100vh' as const } : {}),
   },
   title: { fontSize: 20, fontWeight: '700', color: '#fff', marginBottom: 12 },
   message: { fontSize: 14, color: '#888', textAlign: 'center' },

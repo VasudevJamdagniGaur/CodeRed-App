@@ -28,11 +28,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         AsyncStorage.getItem(USER_KEY),
       ]);
       if (storedToken && storedUser) {
-        setToken(storedToken);
-        setUserState(JSON.parse(storedUser));
+        try {
+          setToken(storedToken);
+          setUserState(JSON.parse(storedUser));
+        } catch (_) {
+          // Corrupted stored user; ignore and stay logged out
+        }
       }
-    } catch (e) {
-      // ignore
+    } catch (_) {
+      // AsyncStorage failed (e.g. web quota); ignore
     } finally {
       setIsLoading(false);
     }
@@ -41,9 +45,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     loadStoredAuth();
+    const timeoutMs = typeof document !== 'undefined' ? 400 : 2000;
     const t = setTimeout(() => {
       if (!cancelled) setIsLoading(false);
-    }, 2000);
+    }, timeoutMs);
     return () => {
       cancelled = true;
       clearTimeout(t);

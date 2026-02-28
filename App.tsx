@@ -1,19 +1,46 @@
 import React, { useEffect } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from './src/context/AuthContext';
 import AppNavigator from './src/navigation/AppNavigator';
 import { ErrorBoundary } from './src/components/ErrorBoundary';
 
-// Ensure root fills viewport on web (fixes white screen)
 const rootStyle = Platform.select({
-  web: { flex: 1, minHeight: '100vh', width: '100%' as const },
+  web: {
+    flex: 1,
+    minHeight: '100vh',
+    width: '100%' as const,
+    backgroundColor: '#0a0a0a',
+  },
   default: { flex: 1 },
 });
 
-const WEB_ROOT_STYLES = `html, body { height: 100%; margin: 0; overflow: hidden; }
-#root, [data-reactroot] { display: flex; min-height: 100%; width: 100%; }`;
+const WEB_ROOT_STYLES = `html, body { height: 100%; margin: 0; overflow: hidden; background: #0a0a0a !important; }
+#root, [data-reactroot], [data-reactroot] > div { display: flex !important; min-height: 100% !important; width: 100% !important; background: #0a0a0a !important; }`;
+
+if (typeof document !== 'undefined') {
+  const id = 'codered-web-root-styles';
+  if (!document.getElementById(id)) {
+    const el = document.createElement('style');
+    el.id = id;
+    el.textContent = WEB_ROOT_STYLES;
+    document.head.appendChild(el);
+  }
+}
+
+function AppContent() {
+  const content = (
+    <AuthProvider>
+      <StatusBar style="light" />
+      <AppNavigator />
+    </AuthProvider>
+  );
+  if (Platform.OS === 'web') {
+    return <>{content}</>;
+  }
+  return <GestureHandlerRootView style={{ flex: 1 }}>{content}</GestureHandlerRootView>;
+}
 
 export default function App() {
   useEffect(() => {
@@ -24,17 +51,13 @@ export default function App() {
     el.id = id;
     el.textContent = WEB_ROOT_STYLES;
     document.head.appendChild(el);
-    return () => { document.head.removeChild(el); };
   }, []);
 
   return (
-    <GestureHandlerRootView style={rootStyle}>
-        <ErrorBoundary>
-          <AuthProvider>
-            <StatusBar style="light" />
-            <AppNavigator />
-          </AuthProvider>
-        </ErrorBoundary>
-      </GestureHandlerRootView>
+    <View style={rootStyle}>
+      <ErrorBoundary>
+        <AppContent />
+      </ErrorBoundary>
+    </View>
   );
 }
