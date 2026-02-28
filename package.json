@@ -1,7 +1,7 @@
 {
   "name": "codered-app",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "bootstrap.js",
   "scripts": {
     "postinstall": "node scripts/patch-expo-entry.js",
     "start": "expo start --web",

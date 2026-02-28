@@ -7,9 +7,9 @@ const path = require('path');
 
 const appEntryPath = path.join(__dirname, '..', 'node_modules', 'expo', 'AppEntry.js');
 const content = `/**
- * Patched by scripts/patch-expo-entry.js - use project index so web mounts to #root and shows sign-up.
+ * Patched: run bootstrap.js first (paints immediately, no imports), then app.
  */
-require('../../index.ts');
+require('../../bootstrap.js');
 `;
 
 try {
