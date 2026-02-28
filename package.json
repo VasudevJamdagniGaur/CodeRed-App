@@ -1,9 +1,8 @@
 {
   "name": "codered-app",
   "version": "1.0.0",
-  "main": "bootstrap.js",
+  "main": "index.ts",
   "scripts": {
-    "postinstall": "node scripts/patch-expo-entry.js",
     "start": "expo start --web",
     "start:mobile": "expo start",
     "start:port": "expo start --port 8083",

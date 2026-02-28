@@ -29,19 +29,6 @@ if (typeof document !== 'undefined') {
   }
 }
 
-function AppContent() {
-  const content = (
-    <AuthProvider>
-      <StatusBar style="light" />
-      <AppNavigator />
-    </AuthProvider>
-  );
-  if (Platform.OS === 'web') {
-    return <>{content}</>;
-  }
-  return <GestureHandlerRootView style={{ flex: 1 }}>{content}</GestureHandlerRootView>;
-}
-
 export default function App() {
   useEffect(() => {
     if (Platform.OS !== 'web' || typeof document === 'undefined') return;
@@ -54,10 +41,13 @@ export default function App() {
   }, []);
 
   return (
-    <View style={rootStyle}>
+    <GestureHandlerRootView style={rootStyle}>
       <ErrorBoundary>
-        <AppContent />
+        <AuthProvider>
+          <StatusBar style="light" />
+          <AppNavigator />
+        </AuthProvider>
       </ErrorBoundary>
-    </View>
+    </GestureHandlerRootView>
   );
 }
