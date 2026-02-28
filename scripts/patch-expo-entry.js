@@ -1,20 +1,24 @@
 /**
- * Patch Expo AppEntry.js so the web bundle runs our index.ts (which mounts to #root and shows sign-up).
- * Run after npm install so web never gets a white screen.
+ * Patch Expo AppEntry so on web we paint the screen first (paint-first.js), then load the app.
+ * This guarantees the user sees the sign-up screen instead of white.
  */
 const fs = require('fs');
 const path = require('path');
 
 const appEntryPath = path.join(__dirname, '..', 'node_modules', 'expo', 'AppEntry.js');
+
 const content = `/**
- * Patched: run bootstrap.js first (paints immediately, no imports), then app.
+ * Patched: run paint-first.js so something shows immediately, then load the app.
  */
-require('../../bootstrap.js');
+require('../../paint-first.js');
+var registerRootComponent = require('expo/src/launch/registerRootComponent').default;
+var App = require('../../App').default;
+registerRootComponent(App);
 `;
 
 try {
   fs.writeFileSync(appEntryPath, content, 'utf8');
-  console.log('Patched expo/AppEntry.js to use project index.ts');
+  console.log('Patched expo/AppEntry.js (paint-first then app)');
 } catch (e) {
-  console.warn('Could not patch expo/AppEntry.js:', e.message);
+  console.warn('Patch failed:', e.message);
 }
